@@ -35,6 +35,16 @@
 #define BLKEY_INPUT_PIN 5
 #define BLKEY_OUTPUT_GPIO SN_GPIO3
 #define BLKEY_OUTPUT_PIN 7
+#elif defined(TECWARE_PHANTOM_TKL) // SN32F260
+#include "SN32F260.h"
+#define SN32_BOOTLOADER_ADDRESS 0x1FFF0009
+#define BOOT0_GPIO SN_GPIO3
+#define BOOT0_PIN 5
+/* Backspace */
+#define BLKEY_INPUT_GPIO SN_GPIO3
+#define BLKEY_INPUT_PIN 5
+#define BLKEY_OUTPUT_GPIO SN_GPIO0
+#define BLKEY_OUTPUT_GPIO PIN 12
 #else
 #error Not configured for this target.
 #endif
