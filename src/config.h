@@ -30,7 +30,7 @@
 #define SN32_BOOTLOADER_ADDRESS 0x1FFF0009
 #define BOOT0_GPIO SN_GPIO3
 #define BOOT0_PIN 5
-/* Backspace */
+/* Escape */
 #define BLKEY_INPUT_GPIO SN_GPIO1
 #define BLKEY_INPUT_PIN 0
 #define BLKEY_OUTPUT_GPIO SN_GPIO0
