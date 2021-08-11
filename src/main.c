@@ -1,9 +1,12 @@
 #include <inttypes.h>
+#include <stddef.h> // size_t
 
 #include "proxy.h"
 #include "config.h"
 
 #define SECOND_STAGE_VECTOR (void*)0x200
+
+#define ARRAY_LEN(x) (sizeof(x)/sizeof(x[0]))
 
 /* Jumps to the next stage given its vector */
 __attribute__((noreturn)) static void jump_vector(uint32_t *vector) {
@@ -65,23 +68,46 @@ static int key_held(void) {
 #ifdef BLKEY_OUTPUT_GPIO
     int res;
 
+#ifdef BLKEY_CUSTOM_GPIO_INIT
+    /* Create the gpio_init_array */
+    static const struct {
+        volatile uint32_t * reg;
+        uint32_t value;
+        uint32_t mask;
+    } gpio_init_array[] = BLKEY_CUSTOM_GPIO_INIT;
+
+    /* Loop over the array and read-modify-write the registers */
+    for(size_t i=0; i<ARRAY_LEN(gpio_init_array); i++){
+        /* Register = Value | (Register & ~Mask) */
+        *gpio_init_array[i].reg = gpio_init_array[i].value | (*gpio_init_array[i].reg & ~gpio_init_array[i].mask) ;
+    }
+#else
     /* Enable pull-up for the input pin */
     BLKEY_INPUT_GPIO->CFG &= ~(3 << (BLKEY_INPUT_PIN * 2));
 
     /* Set up the output pin as output */
     BLKEY_OUTPUT_GPIO->MODE |= (1 << BLKEY_OUTPUT_PIN);
+#endif
 
     delay();
 
     /* Send on the output */
+#ifdef BLKEY_ACTIVE_HIGH
+    BLKEY_OUTPUT_GPIO->BSET = (1 << BLKEY_OUTPUT_PIN);
+#else
     BLKEY_OUTPUT_GPIO->BCLR = (1 << BLKEY_OUTPUT_PIN);
+#endif
 
     delay();
 
     /* Read the input */
     res = BLKEY_INPUT_GPIO->DATA & (1 << BLKEY_INPUT_PIN);
 
+#ifdef BLKEY_ACTIVE_HIGH
+    return res;
+#else
     return !res;
+#endif
 #else
     return 0;
 #endif
