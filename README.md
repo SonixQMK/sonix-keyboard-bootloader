@@ -15,6 +15,8 @@ The bootloader is flashed with the [Womier Flasher](https://github.com/xyzz/womi
 
 NOTES:
 - if you are using different flasher make sure to pad compiled jumploader up to 512 size with zeros and flash it at offset 0x0
+This can be done on linux using the following command, be sure to replace jumploader-redragon_k556.bin with your keyboads jumploader.
+```truncate -s 512 jumploader-redragon_k556.bin```
 
 ## Entering the bootloader
 
