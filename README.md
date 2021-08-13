@@ -13,6 +13,12 @@ make -j8
 
 The bootloader is flashed with the [Womier Flasher](https://github.com/xyzz/womier-flasher).
 
+NOTES:
+- if you are using different flasher make sure to pad compiled jumploader up to 512 size with zeros and flash it at offset 0x0
+This can be done on linux using the following command, be sure to replace jumploader-redragon_k556.bin with your keyboads jumploader.
+
+```truncate -s 512 jumploader-redragon_k556.bin```
+
 ## Entering the bootloader
 
 The bootloader is entered when any of the following is true during power up:
@@ -29,6 +35,30 @@ The specific button to be held will be different depending on the keyboard. See 
 ## Flashing keyboard firmware
 
 The QMK firmware can be flashed with the [Womier Flasher](https://github.com/xyzz/womier-flasher).
+
+NOTES:
+- qmk firmware have to be compiled/linked with 0x200 offset in linked script and size = [full size - jumploader size (0x200)] see note about flashing bootloader
+
+for example for SN32F248B linked script will look like this:
+
+path: qmk_firmware\lib\chibios-contrib\os\common\startup\ARMCMx\compilers\GCC\ld\SN32F240B.ld
+
+modified content:
+
+```
+    MEMORY
+    {
+        flash0 (rx) : org = 0x00000200, len = 64k - 0x200
+```
+- flash compiled qmk firmware at offset 0x200 (size should be 65024)
+- mem layout example for SN32F248B:
+
+```
+0x00000000   compiled jumploader (purpose to jump to qmk or bootloader)
+0x00000200   qmk firmware (size 64k - 0x200)
+0x1FFF0000   original bootloader
+0x20000000   ram space
+```
 
 ## Adding a new keyboard
 
