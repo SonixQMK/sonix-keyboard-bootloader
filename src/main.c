@@ -21,7 +21,7 @@ __attribute__((noreturn)) static void jump_vector(uint32_t *vector) {
 /* Check if the firmware is valid, same simple SP check as in stm32duino-bootloader */
 static int firmware_valid(void) {
     uint32_t *vector = SECOND_STAGE_VECTOR;
-    return (vector[0] & 0x2FFE0000) == 0x20000000;
+    return (vector[0] & 0xFFFE0001) == 0x20000000;
 }
 
 /* Check if QMK asked us to reboot into bootloader mode */
