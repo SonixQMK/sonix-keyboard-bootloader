@@ -95,6 +95,16 @@
 #define BLKEY_INPUT_PIN 15
 #define BLKEY_OUTPUT_GPIO SN_GPIO0
 #define BLKEY_OUTPUT_PIN 0
+#elif defined(TARGET_KEYCHRON_C1_WHITE) // SN32F260
+#include "SN32F260.h"
+#define SN32_BOOTLOADER_ADDRESS 0x1FFF0009
+#define BOOT0_GPIO SN_GPIO3
+#define BOOT0_PIN 5
+/* Escape */
+#define BLKEY_INPUT_GPIO SN_GPIO0
+#define BLKEY_INPUT_PIN 0
+#define BLKEY_OUTPUT_GPIO SN_GPIO2
+#define BLKEY_OUTPUT_PIN 3
 #else
 #error Not configured for this target.
 #endif
