@@ -1,0 +1,25 @@
+name: Compile Firmware
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    container: debian:bullseye
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build jumploaders
+      run: sh build.sh
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Pre-Compiled Jumploaders
+        path: 'build/*.bin'
