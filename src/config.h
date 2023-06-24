@@ -228,6 +228,14 @@
 #define BLKEY_INPUT_PIN 1
 #define BLKEY_OUTPUT_GPIO SN_GPIO3
 #define BLKEY_OUTPUT_PIN 2
+#elif defined(TARGET_DAREU_EM908) // SN32F260
+ #include "SN32F260.h"
+#define SN32_BOOTLOADER_ADDRESS 0x1FFF0009
+#define BOOT0_GPIO SN_GPIO3
+#define BOOT0_PIN 5
+/* Side Button 2 */
+#define BLKEY_INPUT_GPIO SN_GPIO2
+#define BLKEY_INPUT_PIN 7
 #else
 #error Not configured for this target.
 #endif

@@ -62,12 +62,13 @@ static int boot0_low(void) {
 
 /* Check if a keyboard key is held (specified in config.h) */
 static int key_held(void) {
-#ifdef BLKEY_OUTPUT_GPIO
+#ifdef BLKEY_INPUT_GPIO
     int res;
 
     /* Enable pull-up for the input pin */
     BLKEY_INPUT_GPIO->CFG &= ~(3 << (BLKEY_INPUT_PIN * 2));
 
+#ifdef BLKEY_OUTPUT_GPIO
     /* Set up the output pin as output */
     BLKEY_OUTPUT_GPIO->MODE |= (1 << BLKEY_OUTPUT_PIN);
 
@@ -75,7 +76,7 @@ static int key_held(void) {
 
     /* Send on the output */
     BLKEY_OUTPUT_GPIO->BCLR = (1 << BLKEY_OUTPUT_PIN);
-
+#endif // BLKEY_OUTPUT_GPIO
     delay();
 
     /* Read the input */
@@ -88,7 +89,7 @@ static int key_held(void) {
     #endif
 #else
     return 0;
-#endif
+#endif // BLKEY_INPUT_GPIO
 }
 
 void _start(void) {
