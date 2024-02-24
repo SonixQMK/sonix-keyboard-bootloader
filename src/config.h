@@ -241,11 +241,11 @@
 #define SN32_BOOTLOADER_ADDRESS 0x1FFF0009
 #define BOOT0_GPIO SN_GPIO3
 #define BOOT0_PIN 5
-/* Escape / PCB matrix top left. Column: A8. Row: B0. Diodes: ROW2COL. */
-#define BLKEY_INPUT_GPIO SN_GPIO1 // GPIO2 = Pin B
-#define BLKEY_INPUT_PIN 0 // Pin 0
-#define BLKEY_OUTPUT_GPIO SN_GPIO0 // GPIO1 = Pin A
-#define BLKEY_OUTPUT_PIN 8 // Pin 8
+/* Escape */
+#define BLKEY_INPUT_GPIO SN_GPIO1
+#define BLKEY_INPUT_PIN 0
+#define BLKEY_OUTPUT_GPIO SN_GPIO0
+#define BLKEY_OUTPUT_PIN 8
 #else
 #error Not configured for this target.
 #endif
