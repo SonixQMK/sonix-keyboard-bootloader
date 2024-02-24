@@ -236,6 +236,16 @@
 /* Side Button 2 */
 #define BLKEY_INPUT_GPIO SN_GPIO2
 #define BLKEY_INPUT_PIN 7
+#elif defined(TARGET_HAVIT_KB435L) // SN32F268F
+ #include "SN32F260.h"
+#define SN32_BOOTLOADER_ADDRESS 0x1FFF0009
+#define BOOT0_GPIO SN_GPIO3
+#define BOOT0_PIN 5
+/* Escape / PCB matrix top left. Column: A8. Row: B0 */
+#define BLKEY_INPUT_GPIO SN_GPIO1 // GPIO1 = Pin A
+#define BLKEY_INPUT_PIN 8 // Pin 8
+#define BLKEY_OUTPUT_GPIO SN_GPIO2 // GPIO2 = Pin B
+#define BLKEY_OUTPUT_PIN 0 // Pin 0
 #else
 #error Not configured for this target.
 #endif
